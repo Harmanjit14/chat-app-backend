@@ -7,14 +7,15 @@ from django.conf import settings
 class UserProfile(models.Model):
     """Model to store user profile data"""
 
-    gender_choices = {
-        "M": "Male",
-        "F": "Female",
-        "O": "Other",
-    }
+    gender_choices = (
+        ("M", "Male"),
+        ("F", "Female"),
+        ("O", "Others"),
+    )
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     name = models.CharField(null=True, default="User",
                             blank=True, max_length=255)
     gender = models.CharField(
@@ -26,4 +27,4 @@ class UserProfile(models.Model):
     country = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.id
+        return self.user.email
