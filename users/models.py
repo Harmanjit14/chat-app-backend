@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     name = models.CharField(null=True, default="User",
                             blank=True, max_length=255)
     gender = models.CharField(
-        null=True, blank=True, choices=gender_choices, default="M", max_length=6)
+        null=True, blank=True, choices=gender_choices, max_length=6)
     image = models.URLField(
         null=True, default="https://firebasestorage.googleapis.com/v0/b/duo-louge.appspot.com/o/user_default.png?alt=media&token=a27eb92b-8292-4e0c-84d3-5db84b1b18d0")
     city = models.CharField(max_length=255, blank=True, null=True)

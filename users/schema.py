@@ -49,17 +49,9 @@ class CreateUser(graphene.Mutation):
         img = kwargs.get("image")
         gen = kwargs.get("gender")
 
-        if gen and img is None:
+        if img is None:
             profile = UserProfile.objects.create(user=user, name=kwargs.get(
-                "name"),  city=kwargs.get("city"), state=kwargs.get("state"), country=kwargs.get("country"))
-            profile.save()
-        elif img is None and gen is not None:
-            profile = UserProfile.objects.create(user=user, name=kwargs.get(
-                "name"), gender=kwargs.get("gender"), city=kwargs.get("city"), state=kwargs.get("state"), country=kwargs.get("country"))
-            profile.save()
-        elif gen is None and img is not None:
-            profile = UserProfile.objects.create(user=user, name=kwargs.get(
-                "name"), image=kwargs.get("image"), city=kwargs.get("city"), state=kwargs.get("state"), country=kwargs.get("country"))
+                "name"), gender=gen, city=kwargs.get("city"), state=kwargs.get("state"), country=kwargs.get("country"))
             profile.save()
         else:
             profile = UserProfile.objects.create(user=user, name=kwargs.get(
