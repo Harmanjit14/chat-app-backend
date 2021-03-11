@@ -104,7 +104,7 @@ class UpdateUser(graphene.Mutation):
         profile.save()
 
         return UpdateUser(update=profile)
-z
+
 
 class DeleteUser(graphene.Mutation):
     user = graphene.String()
