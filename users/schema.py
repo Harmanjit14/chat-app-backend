@@ -104,8 +104,24 @@ class UpdateUser(graphene.Mutation):
         profile.save()
 
         return UpdateUser(update=profile)
+z
+
+class DeleteUser(graphene.Mutation):
+    user = graphene.String()
+
+    def mutate(self, info):
+        user = info.context.user
+
+        if user.is_anonymous:
+            raise GraphQLError("Not Logged In!")
+
+        user.delete()
+        str = "Done!"
+
+        return DeleteUser(user=str)
 
 
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     update_user = UpdateUser.Field()
+    delete_user = DeleteUser.Field()
