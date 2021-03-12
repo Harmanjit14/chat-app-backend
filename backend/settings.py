@@ -21,11 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY", "'$a94wbfci%#@vq2(h95!vv3qx13t$jjrfj14(2vkctw0l-vqly'")
+SECRET_KEY = str(os.environ.get(
+    "SECRET_KEY", "$a94wbfci%#@vq2(h95!vv3qx13t$jjrfj14(2vkctw0l-vqly"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", True)
+DEBUG = bool(os.environ.get("DEBUG", True))
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'graphene_django',
     'whitenoise.runserver_nostatic',
     'users',
     'location',
+    'chats_id',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 GRAPHENE = {
     'SCHEMA': 'backend.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
