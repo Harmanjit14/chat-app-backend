@@ -1,5 +1,6 @@
 import graphene
 import users.schema
+import location.schema
 
 
 class Query(users.schema.Query, graphene.ObjectType):
