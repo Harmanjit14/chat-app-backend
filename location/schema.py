@@ -10,39 +10,39 @@ class Location(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    last_location = graphene.Field(Location)
+    lastLocation = graphene.Field(Location)
 
-    def resolve_last_location(self, info):
-        user = info.context.user
-        if user.is_anonymous:
+    def resolve_lastLocation(self, info):
+        u = info.context.user
+        if u.is_anonymous:
             raise GraphQLError("Not Logged In!")
 
-        loc = LastLocation.objects.get(user=user)
+        loc = LastLocation.objects.get(user=u)
 
         return loc
 
 
 class UpdateLocation(graphene.Mutation):
-    loc = graphene.Field(Location)
+    l = graphene.Field(Location)
 
     class Arguments:
         city: graphene.String()
         state: graphene.String()
         country: graphene.String()
 
-    def mutate(self, info, city, state, country):
+    def mutate(self, info, **kwargs):
         user = info.context.user
         if user.is_anonymous:
             raise GraphQLError("Not Logged In!")
 
-        loc = LastLocation.objects.get_or_create(user=user)
-        loc.city = city
-        loc.state = state
-        loc.country = country
+        loc = LastLocation.objects.get(user=user).exists()
+        loc.city = kwargs.get("city")
+        loc.state = kwargs.get("state")
+        loc.country = kwargs.get("country")
 
         loc.save()
 
-        return UpdateLocation(loc=loc)
+        return UpdateLocation(l=loc)
 
 
 class Mutation(graphene.ObjectType):

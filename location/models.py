@@ -16,4 +16,4 @@ class LastLocation(models.Model):
                              on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.id
+        return self.user.email
