@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     )
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     name = models.CharField(null=True, default="User",
                             blank=True, max_length=255)

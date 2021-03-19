@@ -19,11 +19,10 @@ class Query(graphene.ObjectType):
     me = graphene.Field(Profile)
 
     def resolve_me(self, info):
-        user = info.context.user
-        if user.is_anonymous:
+        u = info.context.user
+        if u.is_anonymous:
             raise GraphQLError("Not Logged In!")
-        pro = UserProfile.objects.get(user = user)
-        return pro 
+        return UserProfile.objects.get(user=u)
 
 
 class CreateUser(graphene.Mutation):
@@ -105,6 +104,7 @@ class UpdateUser(graphene.Mutation):
         profile.save()
 
         return UpdateUser(update=profile)
+
 
 class DeleteUser(graphene.Mutation):
     user = graphene.String()
