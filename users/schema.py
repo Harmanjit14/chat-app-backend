@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from graphene_django import DjangoObjectType
 from .models import UserProfile
 from graphql import GraphQLError
+from django.db.models import Q
 
 
 class Profile(DjangoObjectType):
@@ -17,6 +18,29 @@ class UserType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     me = graphene.Field(Profile)
+    locationUser = graphene.List(Profile, location=graphene.String())
+    nameUser = graphene.List(Profile, name=graphene.String())
+
+    def resolve_locationUser(self, info, location=None, **kwargs):
+        u = info.context.user
+        if u.is_anonymous:
+            raise GraphQLError("Not Logged In!")
+        if location:
+            filter = (
+                Q(city__icontains=location) |
+                Q(state__icontains=location)
+            )
+        return UserProfile.objects.filter(filter)
+
+    def resolve_nameUser(self, info, name=None, **kwargs):
+        u = info.context.user
+        if u.is_anonymous:
+            raise GraphQLError("Not Logged In!")
+        if name:
+            filter = (
+                Q(name__icontains=name) 
+            )
+        return UserProfile.objects.filter(filter)
 
     def resolve_me(self, info):
         u = info.context.user
