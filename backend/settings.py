@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'whitenoise.runserver_nostatic',
     'users',
-    'location',
+    'chats_id',
 ]
 
 MIDDLEWARE = [
