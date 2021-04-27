@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", 'True')
 
-ALLOWED_HOSTS = ['huddle-backend.herokuapp.com/','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','huddle-backend.herokuapp.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
