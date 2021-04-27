@@ -8,7 +8,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import dj_database_url
-import psycopg2
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +24,37 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", 'True')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['huddle-backend.herokuapp.com/','localhost','127.0.0.1']
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    'https://127.0.0.1',
+    'https://localhost',
+    'https://duo-louge.web.app/',
+)
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 
 # Application definition
@@ -41,6 +70,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'users',
     'chats_id',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
